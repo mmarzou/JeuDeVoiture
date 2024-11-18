@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.repository.VehicleRepository;
 import com.example.model.Tesla;
+import com.example.model.Audi;
+import com.example.model.F1;
 import com.example.model.Vehicle;
 
 @Controller
@@ -23,10 +25,28 @@ public class GameController {
         return "home";
     }
 
-    @PostMapping("/addTesla")
-    public String addTesla() {
-        Tesla tesla = new Tesla(50, 300);
-        vehicleRepository.save(tesla);
+    @PostMapping("/addVehicle")
+    public String addVehicle(@RequestParam("carType") String carType) {
+        int vehicleCount = (int) vehicleRepository.count();
+        int startX = 20 + (vehicleCount * 40);
+        int startY = 180;
+
+        Vehicle vehicle;
+        switch (carType.toLowerCase()) {
+            case "tesla":
+                vehicle = new Tesla(startX, startY);
+                break;
+            case "audi":
+                vehicle = new Audi(startX, startY);
+                break;
+            case "f1":
+                vehicle = new F1(startX, startY);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown car type: " + carType);
+        }
+
+        vehicleRepository.save(vehicle);
         return "redirect:/";
     }
 
