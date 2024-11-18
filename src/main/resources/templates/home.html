@@ -32,6 +32,8 @@
         .controls {
             text-align: center;
             margin: 20px;
+            display: flex;
+            justify-content: center;
         }
         
         .vehicles-list {
@@ -83,12 +85,17 @@
             <img th:src="${vehicle.imageUrl}" width="30">
             <span th:text="${vehicle.type}"></span>
             <span th:text="'Vitesse: ' + ${vehicle.speed}"></span>
+            <span th:text="'Position: (' + ${vehicle.x} + ', ' + ${vehicle.y} + ')'"></span>
+            <form action="/deleteVehicle" method="post">
+                <input type="hidden" name="vehicleId" th:value="${vehicle.id}">
+                <button type="submit">Supprimer</button>
+            </form>
         </div>
     </div>
 
     <script>
         function updateVehicles() {
-            // Vous pouvez ajouter ici la logique de mise à jour des positions
+            
         }
         
         setInterval(updateVehicles, 50);
